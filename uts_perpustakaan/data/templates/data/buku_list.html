@@ -1,0 +1,8 @@
+<h1>Daftar Buku Tersedia</h1>
+<ul>
+    {% for buku in object_list %}
+        <li>{{ buku.judul }} - Penulis: {{ buku.penulis }}</li>
+    {% empty %}
+        <li>Belum ada data buku yang terdaftar.</li>
+    {% endfor %}
+</ul>

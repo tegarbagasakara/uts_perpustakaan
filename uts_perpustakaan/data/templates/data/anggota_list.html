@@ -1,0 +1,8 @@
+<h1>Daftar Anggota Perpustakaan</h1>
+<ul>
+    {% for anggota in object_list %}
+        <li>{{ anggota.nama_lengkap }} - No. Anggota: {{ anggota.nomor_anggota }}</li>
+    {% empty %}
+        <li>Belum ada data anggota yang terdaftar.</li>
+    {% endfor %}
+</ul>
