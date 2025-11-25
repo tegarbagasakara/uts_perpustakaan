@@ -1,0 +1,16 @@
+# .gitignore
+# Python compiled files
+__pycache__/
+*.pyc
+
+# Virtual Environment
+# Ganti 'venv' jika Anda menggunakan nama folder lain
+venv/
+venv_baru/ 
+
+# Database dan Environment
+db.sqlite3
+.env 
+
+# IDE Files
+.vscode/
