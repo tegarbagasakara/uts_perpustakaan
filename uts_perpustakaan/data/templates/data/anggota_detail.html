@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detail Anggota: {{ object.nama_lengkap }}</title>
+</head>
+<body>
+    <h1>Detail Anggota</h1>
+    <p>Nama Lengkap: <strong>{{ object.nama_lengkap }}</strong></p>
+    <p>Nomor Anggota: {{ object.nomor_anggota }}</p>
+    <p>Alamat: {{ object.alamat }}</p>
+
+    <hr>
+    <h2>Riwayat Peminjaman oleh {{ object.nama_lengkap }}</h2>
+
+    <ul>
+        {% for pinjam in object.riwayat_pinjam.all %}
+            <li>
+                <strong>Buku: {{ pinjam.buku.judul }}</strong> (Penulis: {{ pinjam.buku.penulis }})
+                <br>Tanggal Pinjam: {{ pinjam.tanggal_pinjam|date:"d M Y" }}
+                {% if pinjam.tanggal_kembali %}
+                    - Dikembalikan pada: {{ pinjam.tanggal_kembali|date:"d M Y" }}
+                {% else %}
+                    - Status: <span style="color: red;">BELUM DIKEMBALIKAN</span>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>Anggota ini belum pernah melakukan peminjaman.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'anggota-list' %}">Kembali ke Daftar Anggota</a>
+</body>
+</html>

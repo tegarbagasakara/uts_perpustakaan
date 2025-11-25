@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ object|yesno:"Ubah Anggota,Tambah Anggota Baru" }}</title>
+</head>
+<body>
+    <h1>{{ object|yesno:"Ubah Detail Anggota,Tambah Anggota Baru" }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Simpan</button>
+    </form>
+    <a href="{% url 'anggota-list' %}">Batal</a>
+</body>
+</html>

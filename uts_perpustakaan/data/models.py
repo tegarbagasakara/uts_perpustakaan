@@ -18,10 +18,8 @@ class Buku(models.Model):
         return self.judul
 
 class Peminjaman(models.Model):
-    buku = models.ForeignKey(Buku, on_delete=models.CASCADE)
-    anggota = models.ForeignKey(Anggota, on_delete=models.CASCADE)
-    tanggal_pinjam = models.DateTimeField(auto_now_add=True)
-    tanggal_kembali = models.DateField(null=True, blank=True)
+    buku = models.ForeignKey(Buku, on_delete=models.CASCADE, related_name='riwayat_pinjam') #
+    anggota = models.ForeignKey(Anggota, on_delete=models.CASCADE, related_name='riwayat_pinjam') 
 
     def __str__(self):
         return f"{self.anggota.nama_lengkap} meminjam {self.buku.judul}"
