@@ -1,15 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ object|yesno:"Ubah Buku,Tambah Buku Baru" }}</title>
-</head>
-<body>
-    <h1>{{ object|yesno:"Ubah Detail Buku,Tambah Buku Baru" }}</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }} 
-        <button type="submit">Simpan</button>
-    </form>
-    <a href="{% url 'buku-list' %}">Batal</a>
-</body>
-</html>
+<h1>Formulir Buku</h1>
+<hr>
+
+{% if form.instance.pk %}
+    <h2>Update Data Buku (ID: {{ form.instance.pk }})</h2>
+{% else %}
+    <h2>Tambah Buku Baru</h2>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    
+    <button type="submit">Simpan Buku</button>
+</form>
+
+<hr>
+<a href="{% url 'buku-list' %}">Kembali ke Daftar Buku</a>

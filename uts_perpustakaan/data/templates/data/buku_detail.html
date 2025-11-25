@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detail Buku: {{ object.judul }}</title>
+</head>
+<body>
+    <h1>Detail Buku: {{ object.judul }}</h1>
+
+    <ul>
+        <li>ISBN: {{ object.isbn }}</li>
+        <li>Penulis: {{ object.penulis }}</li>
+        <li>Tahun Terbit: {{ object.tahun_terbit }}</li>
+    </ul>
+
+    <p><a href="{% url 'buku-update' object.pk %}">Ubah Buku Ini</a></p>
+    <p><a href="{% url 'buku-delete' object.pk %}">Hapus Buku Ini</a></p>
+    
+    <p><a href="{% url 'buku-list' %}">Kembali ke Daftar Buku</a></p>
+</body>
+</html>

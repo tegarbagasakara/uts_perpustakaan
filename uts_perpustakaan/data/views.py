@@ -4,10 +4,11 @@ from django.views.generic import (
     CreateView,
     UpdateView,
     DeleteView,
-    TemplateView 
+    TemplateView
 )
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy 
 from .models import Buku, Anggota, Peminjaman
+from .forms import BukuForm, AnggotaForm 
 
 
 class IndexView(TemplateView):
@@ -21,43 +22,39 @@ class BukuDetailView(DetailView):
 
 class BukuCreateView(CreateView):
     model = Buku
-    fields = ['isbn', 'judul', 'penulis', 'tahun_terbit']
-    success_url = reverse_lazy('buku-list') 
+    form_class = BukuForm 
+    success_url = reverse_lazy('buku-list')
 
 class BukuUpdateView(UpdateView):
     model = Buku
     fields = ['isbn', 'judul', 'penulis', 'tahun_terbit']
-    success_url = reverse_lazy('buku-detail') 
-    
+
+    def get_success_url(self):
+        return reverse_lazy('buku-detail', kwargs={'pk': self.object.pk})
+
 class BukuDeleteView(DeleteView):
     model = Buku
-    success_url = reverse_lazy('buku-list') 
-    
+    success_url = reverse_lazy('buku-list')
+
 class AnggotaListView(ListView):
     model = Anggota
 
-class AnggotaDetailView(DetailView):
+class AnggotaDetailView(DetailView): 
     model = Anggota
 
 class AnggotaCreateView(CreateView):
     model = Anggota
-    fields = ['nomor_anggota', 'nama_lengkap', 'alamat']
+    form_class = AnggotaForm 
     success_url = reverse_lazy('anggota-list')
 
 class AnggotaUpdateView(UpdateView):
     model = Anggota
-    fields = ['nomor_anggota', 'nama_lengkap', 'alamat']
+    form_class = AnggotaForm
     success_url = reverse_lazy('anggota-detail')
-    
 
 class AnggotaDeleteView(DeleteView):
     model = Anggota
     success_url = reverse_lazy('anggota-list')
-    
-
-
-
 
 class PeminjamanListView(ListView):
     model = Peminjaman
-    
