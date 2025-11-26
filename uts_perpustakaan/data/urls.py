@@ -1,4 +1,5 @@
 from django.urls import path
+from . import views
 from .views import (
     IndexView, 
     BukuListView, BukuDetailView, BukuCreateView, BukuUpdateView, BukuDeleteView,
@@ -20,6 +21,6 @@ urlpatterns = [
     path('anggota/<int:pk>/', AnggotaDetailView.as_view(), name='anggota-detail'),
     path('anggota/<int:pk>/update/', AnggotaUpdateView.as_view(), name='anggota-update'),
     path('anggota/<int:pk>/delete/', AnggotaDeleteView.as_view(), name='anggota-delete'),
-
     path('peminjaman/', PeminjamanListView.as_view(), name='peminjaman-list'),
+    path('api/buku/', views.buku_list_api, name='buku-list-api'),
 ]

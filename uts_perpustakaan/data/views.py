@@ -8,11 +8,18 @@ from django.views.generic import (
 )
 from django.urls import reverse_lazy 
 from .models import Buku, Anggota, Peminjaman
-from .forms import BukuForm, AnggotaForm 
+
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import viewsets
+from .serializers import BukuSerializer, AnggotaSerializer, PeminjamanSerializer
 
 
 class IndexView(TemplateView):
     template_name = 'data/index.html'
+
+
 
 class BukuListView(ListView):
     model = Buku
@@ -22,13 +29,13 @@ class BukuDetailView(DetailView):
 
 class BukuCreateView(CreateView):
     model = Buku
-    form_class = BukuForm 
+    fields = ['isbn', 'judul', 'penulis', 'tahun_terbit']
     success_url = reverse_lazy('buku-list')
 
 class BukuUpdateView(UpdateView):
     model = Buku
     fields = ['isbn', 'judul', 'penulis', 'tahun_terbit']
-
+    
     def get_success_url(self):
         return reverse_lazy('buku-detail', kwargs={'pk': self.object.pk})
 
@@ -36,21 +43,24 @@ class BukuDeleteView(DeleteView):
     model = Buku
     success_url = reverse_lazy('buku-list')
 
+
 class AnggotaListView(ListView):
     model = Anggota
 
-class AnggotaDetailView(DetailView): 
+class AnggotaDetailView(DetailView):
     model = Anggota
 
 class AnggotaCreateView(CreateView):
     model = Anggota
-    form_class = AnggotaForm 
+    fields = ['nomor_anggota', 'nama_lengkap', 'alamat']
     success_url = reverse_lazy('anggota-list')
 
 class AnggotaUpdateView(UpdateView):
     model = Anggota
-    form_class = AnggotaForm
-    success_url = reverse_lazy('anggota-detail')
+    fields = ['nomor_anggota', 'nama_lengkap', 'alamat']
+    
+    def get_success_url(self):
+        return reverse_lazy('anggota-detail', kwargs={'pk': self.object.pk})
 
 class AnggotaDeleteView(DeleteView):
     model = Anggota
@@ -58,3 +68,21 @@ class AnggotaDeleteView(DeleteView):
 
 class PeminjamanListView(ListView):
     model = Peminjaman
+
+class BukuViewSet(viewsets.ModelViewSet):
+    queryset = Buku.objects.all()
+    serializer_class = BukuSerializer
+    
+class AnggotaViewSet(viewsets.ModelViewSet):
+    queryset = Anggota.objects.all()
+    serializer_class = AnggotaSerializer
+    
+class PeminjamanViewSet(viewsets.ModelViewSet):
+    queryset = Peminjaman.objects.all()
+    serializer_class = PeminjamanSerializer
+
+@api_view(['GET'])
+def buku_list_api(request):
+    buku = Buku.objects.all()
+    serializer = BukuSerializer(buku, many=True)
+    return Response(serializer.data)
