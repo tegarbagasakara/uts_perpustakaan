@@ -10,16 +10,14 @@ from django.urls import reverse_lazy
 from .models import Buku, Anggota, Peminjaman
 
 
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from rest_framework import viewsets
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from .serializers import BukuSerializer, AnggotaSerializer, PeminjamanSerializer
+
 
 
 class IndexView(TemplateView):
     template_name = 'data/index.html'
-
-
 
 class BukuListView(ListView):
     model = Buku
@@ -69,6 +67,17 @@ class AnggotaDeleteView(DeleteView):
 class PeminjamanListView(ListView):
     model = Peminjaman
 
+
+class BukuListAPIView(ListAPIView):
+    queryset = Buku.objects.all()
+    serializer_class = BukuSerializer
+
+class BukuDetailAPIView(RetrieveAPIView):
+    queryset = Buku.objects.all()
+    serializer_class = BukuSerializer
+    
+    
+
 class BukuViewSet(viewsets.ModelViewSet):
     queryset = Buku.objects.all()
     serializer_class = BukuSerializer
@@ -80,9 +89,3 @@ class AnggotaViewSet(viewsets.ModelViewSet):
 class PeminjamanViewSet(viewsets.ModelViewSet):
     queryset = Peminjaman.objects.all()
     serializer_class = PeminjamanSerializer
-
-@api_view(['GET'])
-def buku_list_api(request):
-    buku = Buku.objects.all()
-    serializer = BukuSerializer(buku, many=True)
-    return Response(serializer.data)

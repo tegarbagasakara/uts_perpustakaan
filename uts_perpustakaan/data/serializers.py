@@ -9,9 +9,9 @@ class BukuSerializer(serializers.ModelSerializer):
 class AnggotaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Anggota
-        fields = ['id', 'nomor_anggota', 'nama_lengkap', 'alamat']
-
+        fields = '__all__'
+        
 class PeminjamanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Peminjaman
-        fields = ['id', 'buku', 'anggota', 'tanggal_pinjam', 'tanggal_kembali']
+        fields = '__all__'
