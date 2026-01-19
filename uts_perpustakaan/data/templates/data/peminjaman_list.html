@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Daftar Peminjaman{% endblock %}
+
+{% block content %}
+    <h1>Daftar Transaksi Peminjaman</h1>
+    
+    <p>
+        <a href="{% url 'peminjaman-create' %}" class="btn-tambah">➕ Catat Peminjaman Baru</a>
+    </p>
+
+    <hr>
+    
+    {% if peminjaman_list %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Buku</th>
+                    <th>Anggota Peminjam</th>
+                    <th>Tgl Pinjam</th>
+                    <th>Tgl Kembali</th>
+                    <th>Status</th>
+                    <th>Aksi</th> </tr>
+            </thead>
+            <tbody>
+                {% for pinjam in peminjaman_list %}
+                <tr>
+                    <td>{{ pinjam.buku.judul }}</td> 
+                    <td>{{ pinjam.anggota.nama_lengkap }}</td>
+                    <td>{{ pinjam.tanggal_pinjam }}</td>
+                    
+                    <td>
+                        {% if pinjam.tanggal_kembali %}
+                            {{ pinjam.tanggal_kembali }}
+                        {% else %}
+                            Belum Kembali
+                        {% endif %}
+                    </td>
+                    
+                    <td>
+                        {% if pinjam.tanggal_kembali %}
+                            ✅ Selesai
+                        {% else %}
+                            ⏳ Sedang Dipinjam
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <a href="{% url 'peminjaman-update' pk=pinjam.pk %}" class="btn-edit">✏️ Edit/Kembali</a> |
+                        
+                        <a href="{% url 'peminjaman-delete' pk=pinjam.pk %}" class="btn-hapus">🗑️ Hapus</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Belum ada transaksi peminjaman yang tercatat.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Sistem Perpustakaan{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'index' %}">Beranda</a> |
+            <a href="{% url 'buku-list' %}">Buku</a> |
+            <a href="{% url 'anggota-list' %}">Anggota</a> |
+            <a href="{% url 'peminjaman-list' %}">Peminjaman</a>
+        </nav>
+        <hr>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <hr>
+        <p>&copy; 2025 Perpustakaan - Framework Programming</p>
+    </footer>
+</body>
+</html>

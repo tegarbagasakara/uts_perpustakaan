@@ -1,17 +1,13 @@
-from rest_framework.routers import DefaultRouter
 from django.urls import path, include
-from .views import (
-    BukuViewSet, AnggotaViewSet, PeminjamanViewSet,
-    BukuListAPIView, BukuDetailAPIView 
-)
+from rest_framework.routers import DefaultRouter
+from .views import BukuViewSet, AnggotaViewSet, PeminjamanViewSet 
 
 router = DefaultRouter()
-router.register(r'buku-crud', BukuViewSet)
-router.register(r'anggota-crud', AnggotaViewSet)
-router.register(r'peminjaman-crud', PeminjamanViewSet)
+
+router.register(r'buku', BukuViewSet, basename='api-buku')
+router.register(r'anggota', AnggotaViewSet, basename='api-anggota') 
+router.register(r'peminjaman', PeminjamanViewSet, basename='api-peminjaman') 
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('buku-read/', BukuListAPIView.as_view(), name='api-buku-list'),
-    path('buku-read/<int:pk>/', BukuDetailAPIView.as_view(), name='api-buku-detail'),
 ]

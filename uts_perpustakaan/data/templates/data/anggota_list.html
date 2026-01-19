@@ -1,11 +1,41 @@
-<h1>Daftar Anggota Perpustakaan</h1>
-<ul>
-    {% for anggota in object_list %}
-        <li>{{ anggota.nama_lengkap }} - No. Anggota: {{ anggota.nomor_anggota }}</li>
-    {% empty %}
-        <li>Belum ada data anggota yang terdaftar.</li>
-    {% endfor %}
-</ul>
+{% extends "base.html" %}
 
-<h1>Daftar Anggota</h1>
-<a href="{% url 'anggota-create' %}">Tambah Anggota Baru</a> <hr>
+{% block title %}Daftar Anggota{% endblock %}
+
+{% block content %}
+    <h1>Daftar Anggota Perpustakaan</h1>
+    
+    <p>
+        <a href="{% url 'anggota-create' %}" class="btn-tambah">➕ Tambah Anggota Baru</a>
+    </p>
+
+    <hr>
+    
+    {% if anggota_list %}
+        <table>
+            <thead>
+                <tr>
+                    <th>No. Anggota</th>
+                    <th>Nama Lengkap</th>
+                    <th>Alamat</th>
+                    <th>Aksi</th> </tr>
+            </thead>
+            <tbody>
+                {% for anggota in anggota_list %}
+                <tr>
+                    <td>{{ anggota.nomor_anggota }}</td>
+                    <td><a href="{% url 'anggota-detail' pk=anggota.pk %}">{{ anggota.nama_lengkap }}</a></td>
+                    <td>{{ anggota.alamat }}</td>
+                    
+                    <td>
+                        <a href="{% url 'anggota-update' pk=anggota.pk %}" class="btn-edit">✏️ Edit</a> |
+                        <a href="{% url 'anggota-delete' pk=anggota.pk %}" class="btn-hapus">🗑️ Hapus</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Belum ada data anggota yang tercatat.</p>
+    {% endif %}
+{% endblock %}

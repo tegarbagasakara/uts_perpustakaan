@@ -1,11 +1,43 @@
-<h1>Daftar Buku Tersedia</h1>
-<ul>
-    {% for buku in object_list %}
-        <li>{{ buku.judul }} - Penulis: {{ buku.penulis }}</li>
-    {% empty %}
-        <li>Belum ada data buku yang terdaftar.</li>
-    {% endfor %}
-</ul>
+{% extends "base.html" %}
 
-<h1>Daftar Buku</h1>
-<a href="{% url 'buku-create' %}">Tambah Buku Baru</a> <hr>
+{% block title %}Daftar Buku{% endblock %}
+
+{% block content %}
+    <h1>Daftar Buku Perpustakaan</h1>
+    
+    <p>
+        <a href="{% url 'buku-create' %}" class="btn-tambah">➕ Tambah Buku Baru</a>
+    </p>
+
+    <hr>
+    
+    {% if buku_list %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ISBN</th>
+                    <th>Judul</th>
+                    <th>Penulis</th>
+                    <th>Tahun Terbit</th>
+                    <th>Aksi</th> </tr>
+            </thead>
+            <tbody>
+                {% for buku in buku_list %}
+                <tr>
+                    <td>{{ buku.isbn }}</td>
+                    <td><a href="{% url 'buku-detail' pk=buku.pk %}">{{ buku.judul }}</a></td>
+                    <td>{{ buku.penulis }}</td>
+                    <td>{{ buku.tahun_terbit }}</td>
+                    
+                    <td>
+                        <a href="{% url 'buku-update' pk=buku.pk %}" class="btn-edit">✏️ Edit</a> |
+                        <a href="{% url 'buku-delete' pk=buku.pk %}" class="btn-hapus">🗑️ Hapus</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Belum ada data buku dalam katalog.</p>
+    {% endif %}
+{% endblock %}
